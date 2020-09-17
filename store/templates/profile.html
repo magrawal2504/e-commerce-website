@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    
+    
+    <div class="col-9 col-sm-9 col-md-6 col-lg-5 mx-auto bg-light">
+        <div>
+          <br>
+          <div class="product_title">
+            <h1>Profile</h1>
+            <h3>Welcome {{name}}</h3>
+          </div>
+          
+         <br>
+          <h2 class="product_title">
+            Registered Customer Profile
+          </h2>
+          {% if messages %} 
+            {% for message in messages %}
+               <small class="{{message.tags}}">{{message}}</small> 
+            {% endfor %}
+          {% endif %}
+          <form method="post">
+            {% csrf_token %}
+            <p>{{ form | crispy }}</p>
+            <button type="submit" name="button" class="btn btn-secondary">Update Profile</button>
+            <a href="{% url 'signout' %}" class="btn btn-secondary">Logout</a>
+            <a href="{% url 'signin' %}" class="btn btn-secondary">Signin</a>
+            <div>
+            
+            
+           </div>
+          </form>
+          <br>
+        </div>
+      </div>
+    
+    
+</div>
+{% endblock %}
