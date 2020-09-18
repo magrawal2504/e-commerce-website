@@ -61,17 +61,11 @@ class AddToCart(View):
         product = Product.objects.get(id=product_id)
         cart, created = Cart.objects.get_or_create(cart_id=request.user)
 
-        try:
-            cart_item = CartItem.objects.get(product=product, cart=cart)
-            if cart_item.quantity < cart_item.product.stock:
-                cart_item.quantity += 1
-            cart_item.save()
-        except CartItem.DoesNotExist:
-            cart_item = CartItem.objects.create(
-                product=product,
-                quantity=1,
-                cart=cart
-            )
+        cart_item, created = CartItem.objects.get_or_create(product=product, cart=cart, defaults={'quantity': 0})
+        if cart_item.quantity < cart_item.product.stock:
+            cart_item.quantity += 1
+        cart_item.save()
+
         return redirect('cart_detail')
 
 
