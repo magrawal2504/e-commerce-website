@@ -40,5 +40,4 @@ Screenshots
 
 Future Scope
 - Profile image in Profile information page
-- login using both username and email
 - Provider to post the products and quantity of products

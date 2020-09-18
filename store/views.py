@@ -11,7 +11,7 @@ from django.conf import settings
 from django.views import View
 from django.db.models import Q
 from .models import Category, Product, Cart, CartItem, Order, OrderItem, Review
-from .forms import SignUpForm, EditUserProfileForm
+from .forms import SignUpForm, EditUserProfileForm, LoginForm
 import stripe
 
 
@@ -198,18 +198,21 @@ def signupView(request):
 
 def signinView(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                return redirect('signup')
+        form = LoginForm(data=request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        try:
+            user = User.objects.get(email=username)
+            user = authenticate(request, username=user, password=password)
+        except:
+            user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            return redirect('signup')
     else:
-        form = AuthenticationForm()
+        form = LoginForm()
     return render(request, 'signin.html', {'form': form})
 
 
