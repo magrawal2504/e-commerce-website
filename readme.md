@@ -2,6 +2,7 @@ E-commerce Website
 
 Features:
 - Authentication
+- Logging in by emailid or username
 - forget password
 - display all products
 - display products category wise
